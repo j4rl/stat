@@ -1,0 +1,254 @@
+[
+  {
+    "id": "cornhole",
+    "name": "Cornhole",
+    "icon": "CH",
+    "color": "#a3e635",
+    "metrics": [
+      {
+        "label": "Konton",
+        "table": "ch_accounts",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Matcher",
+        "table": "ch_matches",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Spelarprofiler",
+        "table": "ch_users",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Kastomgångar",
+        "table": "ch_turns",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      }
+    ]
+  },
+  {
+    "id": "fire",
+    "name": "Skjutdagbok",
+    "icon": "SD",
+    "color": "#fb923c",
+    "metrics": [
+      {
+        "label": "Konton",
+        "table": "fire_users",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Skjutpass",
+        "table": "fire_shooting_sessions",
+        "date": "session_date",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Serier",
+        "table": "fire_series",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Registrerade vapen",
+        "table": "fire_weapons",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Registrerade skott",
+        "table": "fire_series",
+        "date": "created_at",
+        "where": "",
+        "sum": "shot_count"
+      }
+    ]
+  },
+  {
+    "id": "jolt",
+    "name": "Jolt",
+    "icon": "JO",
+    "color": "#c4b5fd",
+    "metrics": [
+      {
+        "label": "Konton",
+        "table": "jolt_users",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Startade spel",
+        "table": "jolt_games",
+        "date": "created_at",
+        "where": "status <> 'lobby'",
+        "sum": null
+      },
+      {
+        "label": "Avslutade spel",
+        "table": "jolt_games",
+        "date": "created_at",
+        "where": "status = 'finished'",
+        "sum": null
+      },
+      {
+        "label": "Skapade quiz",
+        "table": "jolt_quizzes",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Deltagartillfällen",
+        "table": "jolt_players",
+        "date": "joined_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Inlämnade svar",
+        "table": "jolt_responses",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Tipspromenader",
+        "table": "jolt_walking_jolts",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Promenaddeltagartillfällen",
+        "table": "jolt_walking_players",
+        "date": "joined_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Promenadsvar (senast ändrade)",
+        "table": "jolt_walking_responses",
+        "date": "updated_at",
+        "where": "",
+        "sum": null
+      }
+    ]
+  },
+  {
+    "id": "meme",
+    "name": "Meme",
+    "icon": "ME",
+    "color": "#f9a8d4",
+    "metrics": [
+      {
+        "label": "Konton",
+        "table": "memeuser",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      }
+    ]
+  },
+  {
+    "id": "molkky",
+    "name": "Mölkky",
+    "icon": "MÖ",
+    "color": "#67e8f9",
+    "metrics": [
+      {
+        "label": "Konton",
+        "table": "molkky_users",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Sparade spel",
+        "table": "molkky_games",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      }
+    ]
+  },
+  {
+    "id": "puls",
+    "name": "Puls",
+    "icon": "PU",
+    "color": "#fcd34d",
+    "metrics": [
+      {
+        "label": "Konton",
+        "table": "puls_users",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Publicerade frågor",
+        "table": "puls_questions",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Inlämnade svar",
+        "table": "puls_answers",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Sparade mallar",
+        "table": "puls_saved_items",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Frågeserier",
+        "table": "puls_question_sets",
+        "date": null,
+        "where": "",
+        "sum": null
+      }
+    ]
+  },
+  {
+    "id": "yatzy",
+    "name": "Yatzy",
+    "icon": "YA",
+    "color": "#60a5fa",
+    "metrics": [
+      {
+        "label": "Konton",
+        "table": "yatzy_users",
+        "date": "created_at",
+        "where": "",
+        "sum": null
+      },
+      {
+        "label": "Sparade avslutade spel",
+        "table": "yatzy_games",
+        "date": "finished_at",
+        "where": "",
+        "sum": null
+      }
+    ]
+  }
+]
