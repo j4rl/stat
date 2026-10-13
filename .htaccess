@@ -1,0 +1,11 @@
+Options -Indexes
+
+# SQL dumps and local configuration must never be served as downloads.
+<FilesMatch "(?i)(\.(sql|bak|log|ini|env)(\..*)?$|^config(?:\..*)?\.php$|^metrics\.json$)">
+    Require all denied
+</FilesMatch>
+
+# Prevent access to repository metadata, including .git/config.
+RewriteEngine On
+RewriteRule (^|/)\. - [F]
+RewriteRule ^tests(?:/|$) - [F]

@@ -4,16 +4,13 @@ Fristående responsiv dashboard i PHP, MySQLi, HTML, CSS och vanilla JavaScript.
 ## Installation
 1. Kräver PHP 8.1+ med mysqli och mysqlnd, samt MySQL/MariaDB.
 2. Ladda upp mappen till exempelvis https://j4rl.se/stats/.
-3. Kopiera config.example.php till config.php. Fyll i databasuppgifterna och admin_user.
-4. Generera lösenordshash på en dator med PHP:
-   php -r "echo password_hash('DITT-LÖSENORD', PASSWORD_DEFAULT), PHP_EOL;"
-   Klistra in hashen i admin_password_hash.
-5. Ange db_timezone efter hur apparnas datum lagras. Standard +00:00. Fasta UTC-offsets tar inte automatiskt hänsyn till sommartid; namnet Europe/Stockholm kräver installerade MySQL-tidszontabeller.
-6. Öppna index.php över HTTPS och logga in via webbläsarens inloggningsruta.
+3. Kopiera config.example.php till config.php. Fyll i databasuppgifterna.
+4. Ange db_timezone efter hur apparnas datum lagras. Standard +00:00. Fasta UTC-offsets tar inte automatiskt hänsyn till sommartid; namnet Europe/Stockholm kräver installerade MySQL-tidszontabeller.
+5. Öppna index.php över HTTPS. Sidan och API:t är tillgängliga utan inloggning.
 
 Använd en separat databasuser med endast SELECT-rättighet på relevanta tabeller. Ingen import av SQL-filen behövs när tabellerna redan finns. SQL-dumpen och dess personuppgifter ingår inte i paketet.
-HTTP Basic-auth måste skickas vidare av webbhotellets PHP-konfiguration. Om inloggningsrutan återkommer trots rätt lösenord, kontrollera detta hos webbhotellet.
 config.php innehåller hemligheter och ska inte läggas i publikt Git. Stäng av display_errors i produktion.
+Den medföljande .htaccess stänger av kataloglistning och blockerar SQL-dumpar, konfiguration och Git-metadata på Apache. Den kräver att AllowOverride tillåter Options, FileInfo och AuthConfig samt att mod_rewrite är aktiverad. Vid annan webbserver behövs motsvarande regler. SQL-dumpen i denna arbetskopia är redan Git-spårad; .gitignore hindrar endast nya dumpar från att läggas till. Publicera inte dumpen eller Git-historik som innehåller personuppgifter.
 
 ## Vad mäts?
 Alla kort visar totalt antal samt antal i perioden. 7/30/90/365 dagar omfattar dagens kalenderdag och föregående dagar i databasens tidszon. Alla tider visar totaler och ett aktivitetsdiagram för de senaste 30 dagarna.
@@ -36,5 +33,6 @@ Ingen automatisk polling; Uppdatera hämtar aktuella data. Vanliga COUNT/SUM och
 Endast aggregerad statistik lämnar API:t. Namn, mejl, lösenordshashar, svarstext och vapenuppgifter hämtas inte.
 
 ## Verifiering
-JavaScriptets syntax och måttens tabell-/kolumnreferenser är kontrollerade mot de bifogade SQL-filernas scheman. PHP- och databasprov behöver köras på ditt webbhotell: denna leveransmiljö har ingen PHP/MySQL-server.
-Kontrollera vid installation att rätt period ger förväntade värden, att felaktig inloggning nekas och att en saknad tabell visas som —.
+PHP-filerna kan syntaxkontrolleras med php -l och JavaScript med node --check app.js. Kör node tests/refresh.cjs för regressionstest av överlappande hämtningar och sena svar vid periodbyten.
+Måttens tabell-/kolumnreferenser är kontrollerade mot den bifogade SQL-dumpens schema för alla appar utom Yatzy, vars tabeller saknas i dumpen. Databasfrågor och HTTP-åtkomstskydd behöver verifieras med en konfigurerad databas och webbserver.
+Kontrollera vid installation att sidan och API:t fungerar utan inloggning, att rätt period ger förväntade värden och att en saknad tabell visas som —.

@@ -27,7 +27,7 @@ function chart(){
  const a=data.apps.find(a=>a.id===$('chart-app').value);if(!a)return;
  const metric=a.metrics.find(m=>m.label===a.activity_label);
  $('chart-note').textContent=(a.activity_label??'Aktivitet saknas')+' per dag'+(data.days==='all'?' • senaste 30 dagarna':'');
- if(!metric||metric.total===null){$('chart').replaceChildren(el('div','empty','Ingen tillgänglig aktivitetsstatistik.'));$('chart-footer').replaceChildren();return;}
+ if(!metric||metric.total===null){$('chart').replaceChildren(el('div','empty','Ingen tillgänglig aktivitetsstatistik.'));$('chart').setAttribute('aria-label',a.name+': Ingen tillgänglig aktivitetsstatistik.');$('chart-footer').replaceChildren();return;}
  const points=a.series,max=Math.max(1,...points.map(p=>p.value)),w=1000,h=220,pad=35;
  const ns='http://www.w3.org/2000/svg', svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox', '0 0 1000 240');svg.setAttribute('preserveAspectRatio','none');
  function node(tag,attrs,text){const n=document.createElementNS(ns,tag);Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v));if(text!==undefined)n.textContent=text;svg.append(n);return n;}
@@ -39,16 +39,17 @@ function chart(){
  $('chart-footer').replaceChildren(el('span',null,points[0]?.date),el('span',null,fmt(points.reduce((s,p)=>s+p.value,0))+' '+a.activity_label.toLowerCase()),el('span',null,points.at(-1)?.date));
 }
 async function refresh(){
- controller?.abort();controller=new AbortController();$('refresh').disabled=true;$('message').className='';$('message').textContent='Hämtar statistik…';
+ controller?.abort();const request=new AbortController();controller=request;$('refresh').disabled=true;$('message').className='';$('message').textContent='Hämtar statistik…';
  try{
-  const response=await fetch('api.php?days='+encodeURIComponent($('period').value),{signal:controller.signal,cache:'no-store'});
+  const response=await fetch('api.php?days='+encodeURIComponent($('period').value),{signal:request.signal,cache:'no-store'});
   if(!response.ok){let error='Statistiken kunde inte hämtas (HTTP '+response.status+').';try{error=(await response.json()).error??error;}catch{}throw new Error(error);}
-  data=await response.json();const selected=$('chart-app').value;
+  const result=await response.json();if(controller!==request)return;
+  data=result;const selected=$('chart-app').value;
   $('chart-app').replaceChildren(...data.apps.map(a=>{const o=el('option',null,a.name);o.value=a.id;return o;}));
   if(data.apps.some(a=>a.id===selected))$('chart-app').value=selected;
   summary();cards();chart();$('message').textContent='Uppdaterad • '+data.apps.length+' appar';
   $('updated').textContent='Senast hämtad '+new Date(data.generated_at).toLocaleString('sv-SE')+' · databasens tidszon '+data.timezone;
- }catch(e){if(e.name!=='AbortError'){$('message').className='error';$('message').textContent=e.message+(data?' Tidigare siffror ligger kvar.':'');}}
- finally{$('refresh').disabled=false;}
+ }catch(e){if(controller===request&&e.name!=='AbortError'){$('message').className='error';$('message').textContent=e.message+(data?' Tidigare siffror ligger kvar.':'');}}
+ finally{if(controller===request)$('refresh').disabled=false;}
 }
 $('refresh').addEventListener('click',refresh);$('period').addEventListener('change',refresh);$('search').addEventListener('input',()=>data&&cards());$('chart-app').addEventListener('change',chart);refresh();

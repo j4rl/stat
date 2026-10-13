@@ -2,8 +2,8 @@
 require __DIR__ . '/bootstrap.php';
 header('Content-Type: application/json; charset=utf-8');
 date_default_timezone_set('Europe/Stockholm');
-$days = (string)($_GET['days'] ?? '30');
-if (!in_array($days, ['7', '30', '90', '365', 'all'], true)) {
+$days = $_GET['days'] ?? '30';
+if (!is_string($days) || !in_array($days, ['7', '30', '90', '365', 'all'], true)) {
     http_response_code(400); exit(json_encode(['error' => 'Ogiltig period.']));
 }
 try {
